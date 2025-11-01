@@ -7938,114 +7938,174 @@ Teleport:AddButton({
 
 
 ----------------------------------------------------
--- ⚠️ VULN TAB - HIDE AVATAR FEATURE
+-- ⚠️ VULN TAB - HIDE AVATAR BUTTON
 ----------------------------------------------------
-local VulnSection = Vuln:AddSection("Hide Avatar")
+local VulnSection = Vuln:AddSection("Avatar Tools")
 
-local hideAvatarEnabled = false
+Vuln:AddButton({
+    Title = "Hide Avatar (Bacon Mode)",
+    Description = "Remove avatar accessories & change display to iSylHub Premium",
+    Callback = function()
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+        -- Settings
+        local CUSTOM_USERNAME = "iSylHub Premium"
+        local BACON_MODE = true -- Set to bacon avatar
 
-local function removeAvatar(character)
-    if not character then return end
-    for _, accessory in pairs(character:GetChildren()) do
-        if accessory:IsA("Accessory") or accessory:IsA("Hat") then
-            accessory:Destroy()
+        print("=== AVATAR REMOVER SCRIPT ===")
+        print("Loading bacon avatar...")
+        print("Setting username to:", CUSTOM_USERNAME)
+        print("=============================")
+
+        -- Function to remove all accessories and body parts
+        local function removeAvatar(character)
+            if not character then return end
+            
+            -- Remove all accessories (hats, hair, face, etc)
+            for _, accessory in pairs(character:GetChildren()) do
+                if accessory:IsA("Accessory") or accessory:IsA("Hat") then
+                    accessory:Destroy()
+                end
+            end
+            
+            -- Remove shirts, pants, and graphic t-shirts
+            for _, clothing in pairs(character:GetChildren()) do
+                if clothing:IsA("Shirt") or clothing:IsA("Pants") or clothing:IsA("ShirtGraphic") then
+                    clothing:Destroy()
+                end
+            end
+            
+            -- Set body colors to bacon (yellow/tan color)
+            local bodyColors = character:FindFirstChildOfClass("BodyColors")
+            if bodyColors then
+                bodyColors.HeadColor3 = Color3.fromRGB(226, 220, 188)
+                bodyColors.TorsoColor3 = Color3.fromRGB(226, 220, 188)
+                bodyColors.LeftArmColor3 = Color3.fromRGB(226, 220, 188)
+                bodyColors.RightArmColor3 = Color3.fromRGB(226, 220, 188)
+                bodyColors.LeftLegColor3 = Color3.fromRGB(226, 220, 188)
+                bodyColors.RightLegColor3 = Color3.fromRGB(226, 220, 188)
+            end
+            
+            -- Remove face decal
+            local head = character:FindFirstChild("Head")
+            if head then
+                for _, decal in pairs(head:GetChildren()) do
+                    if decal:IsA("Decal") and decal.Name == "face" then
+                        decal.Texture = "rbxasset://textures/face.png" -- Default smile face
+                    end
+                end
+            end
+            
+            print("✅ Avatar removed successfully!")
         end
-    end
-    for _, clothing in pairs(character:GetChildren()) do
-        if clothing:IsA("Shirt") or clothing:IsA("Pants") or clothing:IsA("ShirtGraphic") then
-            clothing:Destroy()
+
+        -- Function to change username display
+        local function changeUsername()
+            local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+            local humanoid = character:WaitForChild("Humanoid")
+            
+            humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+            humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOff
+            humanoid.NameDisplayDistance = 0
+            humanoid.HealthDisplayDistance = 0
+            
+            humanoid.DisplayName = CUSTOM_USERNAME
+            
+            local head = character:WaitForChild("Head")
+            
+            for _, gui in pairs(head:GetChildren()) do
+                if gui:IsA("BillboardGui") then
+                    gui:Destroy()
+                end
+            end
+            
+            for _, gui in pairs(character:GetChildren()) do
+                if gui:IsA("BillboardGui") then
+                    gui:Destroy()
+                end
+            end
+            
+            local function hideGameNametags()
+                for _, descendant in pairs(character:GetDescendants()) do
+                    if descendant:IsA("BillboardGui") or descendant:IsA("SurfaceGui") then
+                        for _, child in pairs(descendant:GetDescendants()) do
+                            if child:IsA("TextLabel") or child:IsA("TextButton") then
+                                local text = child.Text
+                                if text:find(LocalPlayer.Name) or text:find("Lvl") or text:find("Level") then
+                                    descendant.Enabled = false
+                                    descendant:Destroy()
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            
+            hideGameNametags()
+            
+            local billboardGui = Instance.new("BillboardGui")
+            billboardGui.Name = "CustomNametag"
+            billboardGui.Adornee = head
+            billboardGui.Size = UDim2.new(0, 200, 0, 50)
+            billboardGui.StudsOffset = Vector3.new(0, 2.5, 0)
+            billboardGui.AlwaysOnTop = true
+            billboardGui.Parent = head
+            
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.Text = CUSTOM_USERNAME
+            textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            textLabel.TextStrokeTransparency = 0.5
+            textLabel.TextScaled = true
+            textLabel.Font = Enum.Font.SourceSansBold
+            textLabel.Parent = billboardGui
+            
+            print("✅ Username changed to:", CUSTOM_USERNAME)
+            print("✅ Default username hidden!")
+            print("✅ Game nametag hidden!")
         end
-    end
-    local bodyColors = character:FindFirstChildOfClass("BodyColors")
-    if bodyColors then
-        bodyColors.HeadColor3 = Color3.fromRGB(226, 220, 188)
-        bodyColors.TorsoColor3 = Color3.fromRGB(226, 220, 188)
-        bodyColors.LeftArmColor3 = Color3.fromRGB(226, 220, 188)
-        bodyColors.RightArmColor3 = Color3.fromRGB(226, 220, 188)
-        bodyColors.LeftLegColor3 = Color3.fromRGB(226, 220, 188)
-        bodyColors.RightLegColor3 = Color3.fromRGB(226, 220, 188)
-    end
-    local head = character:FindFirstChild("Head")
-    if head then
-        for _, decal in pairs(head:GetChildren()) do
-            if decal:IsA("Decal") and decal.Name == "face" then
-                decal.Texture = "rbxasset://textures/face.png"
+
+        local function applyChanges()
+            local character = LocalPlayer.Character
+            if character then
+                removeAvatar(character)
+                changeUsername()
             end
         end
-    end
-end
 
-local function changeUsername()
-    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-    humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-    humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOff
-    humanoid.DisplayName = "iSylHub Premium"
-    local head = character:WaitForChild("Head")
-    for _, gui in pairs(head:GetChildren()) do
-        if gui:IsA("BillboardGui") then gui:Destroy() end
-    end
-    local billboardGui = Instance.new("BillboardGui")
-    billboardGui.Name = "CustomNametag"
-    billboardGui.Adornee = head
-    billboardGui.Size = UDim2.new(0, 200, 0, 50)
-    billboardGui.StudsOffset = Vector3.new(0, 2.5, 0)
-    billboardGui.AlwaysOnTop = true
-    billboardGui.Parent = head
+        LocalPlayer.CharacterAdded:Connect(function(character)
+            character:WaitForChild("Humanoid")
+            task.wait(0.5)
+            removeAvatar(character)
+            changeUsername()
+        end)
 
-    local textLabel = Instance.new("TextLabel")
-    textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.BackgroundTransparency = 1
-    textLabel.Text = "iSylHub Premium"
-    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    textLabel.TextStrokeTransparency = 0.5
-    textLabel.TextScaled = true
-    textLabel.Font = Enum.Font.SourceSansBold
-    textLabel.Parent = billboardGui
-end
-
-local function applyAvatarHide()
-    local character = LocalPlayer.Character
-    if character then
-        removeAvatar(character)
-        changeUsername()
-    end
-end
-
--- Reapply on respawn
-LocalPlayer.CharacterAdded:Connect(function(character)
-    if hideAvatarEnabled then
-        character:WaitForChild("Humanoid")
-        task.wait(0.5)
-        removeAvatar(character)
-        changeUsername()
-    end
-end)
-
--- Toggle UI
-Vuln:AddToggle("HideAvatarToggle", {
-    Title = "Hide Avatar",
-    Description = "Remove all accessories & show iSylHub Premium display",
-    Default = false,
-    Callback = function(Value)
-        hideAvatarEnabled = Value
-        if Value then
-            applyAvatarHide()
-            Fluent:Notify({
-                Title = "Hide Avatar",
-                Content = "Avatar hidden successfully ✅",
-                Duration = 3
-            })
-        else
-            Fluent:Notify({
-                Title = "Hide Avatar",
-                Content = "Restored default avatar (respawn to reset) 🔁",
-                Duration = 3
-            })
+        if LocalPlayer.Character then
+            applyChanges()
         end
+
+        task.spawn(function()
+            while task.wait(1) do
+                if LocalPlayer.Character then
+                    for _, accessory in pairs(LocalPlayer.Character:GetChildren()) do
+                        if accessory:IsA("Accessory") or accessory:IsA("Hat") then
+                            accessory:Destroy()
+                        end
+                    end
+                end
+            end
+        end)
+
+        print("✅ Script loaded! You are now a bacon with custom username!")
+        print("Note: Other players will still see your original username in chat")
+
+        Fluent:Notify({
+            Title = "Avatar Hidden",
+            Content = "Avatar removed and custom name applied ✅",
+            Duration = 3
+        })
     end
 })
 
