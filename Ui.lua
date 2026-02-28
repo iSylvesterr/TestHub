@@ -481,7 +481,7 @@ end
 function iSylhub:Window(GuiConfig)
     GuiConfig              = GuiConfig or {}
     GuiConfig.Title        = GuiConfig.Title or "iSyl Hub"
-    GuiConfig.Footer       = GuiConfig.Footer or "iSylhub >:D"
+    GuiConfig.Footer       = GuiConfig.Footer or "iSylhub"
     GuiConfig.Color        = GuiConfig.Color or Color3.fromRGB(255, 0, 255)
     GuiConfig["Tab Width"] = GuiConfig["Tab Width"] or 120
     GuiConfig.Version      = GuiConfig.Version or 1
@@ -609,7 +609,7 @@ function iSylhub:Window(GuiConfig)
     ThemeImage.Size = UDim2.new(0.7, 0, 1, 0) -- Hanya mengambil 70% lebar jendela
     
     ThemeImage.ZIndex = 0
-    ThemeImage.Image = "rbxassetid://78769566766000"
+    ThemeImage.Image = ""
     
     -- transparansi lebih halus agar UI tetap bersih
     ThemeImage.ImageTransparency = 0.6 
