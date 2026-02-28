@@ -1,9 +1,9 @@
 local HttpService = game:GetService("HttpService")
 
-local ConfigPath = "Meng Hub_Abyss/Config/" 
+local ConfigPath = "iSyl Hub_Abyss/Config/" 
 
-if not isfolder("Meng Hub_Abyss") then makefolder("Meng Hub_Abyss") end
-if not isfolder("Meng Hub_Abyss/Config") then makefolder("Meng Hub_Abyss/Config") end
+if not isfolder("iSyl Hub_Abyss") then makefolder("iSyl Hub_Abyss") end
+if not isfolder("iSyl Hub_Abyss/Config") then makefolder("iSyl Hub_Abyss/Config") end
 
 ConfigData = {}
 Elements = {} 
@@ -268,10 +268,10 @@ function CircleClick(Button, X, Y)
     end)
 end
 
-local Menghub = {}
-function Menghub:MakeNotify(NotifyConfig)
+local iSylhub = {}
+function iSylhub:MakeNotify(NotifyConfig)
     local NotifyConfig = NotifyConfig or {}
-    NotifyConfig.Title = NotifyConfig.Title or "Meng Hub"
+    NotifyConfig.Title = NotifyConfig.Title or "iSyl Hub"
     NotifyConfig.Description = NotifyConfig.Description or "Notification"
     NotifyConfig.Content = NotifyConfig.Content or "Content"
     NotifyConfig.Color = NotifyConfig.Color or Color3.fromRGB(255, 0, 255)
@@ -469,8 +469,8 @@ function Menghub:MakeNotify(NotifyConfig)
 end
 
 function notif(msg, delay, color, title, desc)
-    return Menghub:MakeNotify({
-        Title = title or "Meng Hub",
+    return iSylhub:MakeNotify({
+        Title = title or "iSyl Hub",
         Description = desc or "Notification",
         Content = msg or "Content",
         Color = color or Color3.fromRGB(232, 145, 234),
@@ -478,10 +478,10 @@ function notif(msg, delay, color, title, desc)
     })
 end
 
-function Menghub:Window(GuiConfig)
+function iSylhub:Window(GuiConfig)
     GuiConfig              = GuiConfig or {}
-    GuiConfig.Title        = GuiConfig.Title or "Meng Hub"
-    GuiConfig.Footer       = GuiConfig.Footer or "MengHub >:D"
+    GuiConfig.Title        = GuiConfig.Title or "iSyl Hub"
+    GuiConfig.Footer       = GuiConfig.Footer or "iSylhub"
     GuiConfig.Color        = GuiConfig.Color or Color3.fromRGB(255, 0, 255)
     GuiConfig["Tab Width"] = GuiConfig["Tab Width"] or 120
     GuiConfig.Version      = GuiConfig.Version or 1
@@ -492,7 +492,7 @@ function Menghub:Window(GuiConfig)
 
     local GuiFunc = {}
 
-    local Menghubb = Instance.new("ScreenGui");
+    local iSylhubb = Instance.new("ScreenGui");
     local DropShadowHolder = Instance.new("Frame");
     local DropShadow = Instance.new("ImageLabel");
     local Main = Instance.new("Frame");
@@ -519,10 +519,10 @@ function Menghub:Window(GuiConfig)
     local ThemeImage = Instance.new("ImageLabel");
     local UICornerTheme = Instance.new("UICorner");
 
-    Menghubb.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    Menghubb.Name = "Menghubb"
-    Menghubb.ResetOnSpawn = false
-    Menghubb.Parent = game:GetService("CoreGui")
+    iSylhubb.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    iSylhubb.Name = "iSylhubb"
+    iSylhubb.ResetOnSpawn = false
+    iSylhubb.Parent = game:GetService("CoreGui")
 
     DropShadowHolder.BackgroundTransparency = 1
     DropShadowHolder.BorderSizePixel = 0
@@ -535,10 +535,10 @@ function Menghub:Window(GuiConfig)
     end
     DropShadowHolder.ZIndex = 0
     DropShadowHolder.Name = "DropShadowHolder"
-    DropShadowHolder.Parent = Menghubb
+    DropShadowHolder.Parent = iSylhubb
 
-    DropShadowHolder.Position = UDim2.new(0, (Menghubb.AbsoluteSize.X // 2 - DropShadowHolder.Size.X.Offset // 2), 0,
-        (Menghubb.AbsoluteSize.Y // 2 - DropShadowHolder.Size.Y.Offset // 2))
+    DropShadowHolder.Position = UDim2.new(0, (iSylhubb.AbsoluteSize.X // 2 - DropShadowHolder.Size.X.Offset // 2), 0,
+        (iSylhubb.AbsoluteSize.Y // 2 - DropShadowHolder.Size.Y.Offset // 2))
     DropShadow.Image = "rbxassetid://6015897843"
     DropShadow.ImageColor3 = Color3.fromRGB(15, 15, 15)
     DropShadow.ImageTransparency = 1
@@ -609,7 +609,7 @@ function Menghub:Window(GuiConfig)
     ThemeImage.Size = UDim2.new(0.7, 0, 1, 0) -- Hanya mengambil 70% lebar jendela
     
     ThemeImage.ZIndex = 0
-    ThemeImage.Image = "rbxassetid://78769566766000"
+    ThemeImage.Image = ""
     
     -- transparansi lebih halus agar UI tetap bersih
     ThemeImage.ImageTransparency = 0.6 
@@ -803,8 +803,8 @@ function Menghub:Window(GuiConfig)
     ScrollTab.ChildRemoved:Connect(UpdateSize1)
 
     function GuiFunc:DestroyGui()
-        if CoreGui:FindFirstChild("Menghubb") then
-            Menghubb:Destroy()
+        if CoreGui:FindFirstChild("iSylhubb") then
+            iSylhubb:Destroy()
         end
     end
 
@@ -860,7 +860,7 @@ function Menghub:Window(GuiConfig)
         Title.Position = UDim2.new(0, 0, 0, 4)
         Title.BackgroundTransparency = 1
         Title.Font = Enum.Font.GothamBold
-        Title.Text = "Meng Hub Window"
+        Title.Text = "iSyl Hub Window"
         Title.TextSize = 22
         Title.TextColor3 = Color3.fromRGB(255, 255, 255)
         Title.ZIndex = 52
@@ -915,7 +915,7 @@ function Menghub:Window(GuiConfig)
             end
             ScriptLoaded = false
             NoclipEnabled = false
-            if Menghubb then Menghubb:Destroy() end
+            if iSylhubb then iSylhubb:Destroy() end
             if game.CoreGui:FindFirstChild("ToggleUIButton") then
                 game.CoreGui.ToggleUIButton:Destroy()
             end
@@ -2825,4 +2825,4 @@ function Menghub:Window(GuiConfig)
     return Tabs
 end
 
-return Menghub
+return iSylhub
